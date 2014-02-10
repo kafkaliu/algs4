@@ -3,28 +3,48 @@
  */
 public class PercolationStats {
 
+  private int[] stats;
+
+  private int n, t;
+
   public PercolationStats(int n, int t) {
     if (n <= 0 || t <= 0) {
       throw new IllegalArgumentException("Both n and t should be greater than 0.");
     }
+    this.n = n;
+    this.t = t;
+    stats = new int[n];
     for (int i = 0; i < t; i++) {
+      StdRandom.setSeed(System.currentTimeMillis());
       Percolation percolation = new Percolation(n);
-      
+      while (!percolation.percolates()) {
+        int row = StdRandom.uniform(1, n + 1);
+        int column = StdRandom.uniform(1, n + 1);
+        if (!percolation.isOpen(row, column)) {
+          stats[i]++;
+          percolation.open(row, column);
+        }
+      }
+      StdOut.print();
     }
-    throw new IllegalArgumentException("Not implemented.");
-  }   // perform T independent computational experiments on an N-by-N grid
+  }
+
   public double mean() {
-    throw new IllegalArgumentException("Not implemented.");
-  }                    // sample mean of percolation threshold
+    return StdStats.mean(stats);
+  }
+
   public double stddev() {
-    throw new IllegalArgumentException("Not implemented.");
-  }                  // sample standard deviation of percolation threshold
+    return StdStats.stddev(stats);
+  }
+
   public double confidenceLo() {
-    throw new IllegalArgumentException("Not implemented.");
-  }            // returns lower bound of the 95% confidence interval
+    return mean() - 1.96 * stddev() / Math.sqrt(t);
+  }
+
   public double confidenceHi() {
-    throw new IllegalArgumentException("Not implemented.");
-  }            // returns upper bound of the 95% confidence interval
+    return mean() + 1.96 * stddev() / Math.sqrt(t);
+  }
+
   public static void main(String[] args) {
     int n = Integer.parseInt(args[0]);
     int t = Integer.parseInt(args[1]);
