@@ -49,8 +49,8 @@ public class Percolation {
   }
 
   public boolean isFull(int i, int j) {
-    throw new IllegalArgumentException("Not implemented.");
-  }   // is site (row i, column j) full?
+    return isOpen(i, j) && uf.connected(0, (i - 1) * n + j);
+  }
 
   public boolean percolates() {
     return uf.connected(0, n * n + 1);
