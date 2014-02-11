@@ -50,6 +50,6 @@ public class Percolation {
   }   // is site (row i, column j) full?
 
   public boolean percolates() {
-    return uf.count() == 1;
+    return uf.connected(0, N * N + 1);
   }
 }

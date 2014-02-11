@@ -3,7 +3,7 @@
  */
 public class PercolationStats {
 
-  private int[] stats;
+  private double[] stats;
 
   private int n, t;
 
@@ -13,19 +13,20 @@ public class PercolationStats {
     }
     this.n = n;
     this.t = t;
-    stats = new int[n];
+    stats = new double[t];
     for (int i = 0; i < t; i++) {
       StdRandom.setSeed(System.currentTimeMillis());
       Percolation percolation = new Percolation(n);
+      int count = 0;
       while (!percolation.percolates()) {
         int row = StdRandom.uniform(1, n + 1);
         int column = StdRandom.uniform(1, n + 1);
         if (!percolation.isOpen(row, column)) {
-          stats[i]++;
+          count++;
           percolation.open(row, column);
         }
       }
-      StdOut.print();
+      stats[i] = count * 1.0 / (n * n);
     }
   }
 
