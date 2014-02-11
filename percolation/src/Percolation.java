@@ -20,10 +20,11 @@ public class Percolation {
   public void open(int i, int j) {
     if (isOpen(i, j)) return;
     int p = (i - 1) * n + j;
-    ids[p] = -ids[p];
+    ids[p] = p;
     if (i == 1) {
       uf.union(0, p);
-    } else if (i == n) {
+    }
+    if (i == n) {
       uf.union(n * n + 1, p);
     }
     if (i > 1 && isOpen(i - 1, j)) {
