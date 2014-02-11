@@ -5,13 +5,12 @@ public class PercolationStats {
 
   private double[] stats;
 
-  private int n, t;
+  private int t;
 
   public PercolationStats(int n, int t) {
     if (n <= 0 || t <= 0) {
       throw new IllegalArgumentException("Both n and t should be greater than 0.");
     }
-    this.n = n;
     this.t = t;
     stats = new double[t];
     for (int i = 0; i < t; i++) {
@@ -52,6 +51,7 @@ public class PercolationStats {
     PercolationStats stats = new PercolationStats(n, t);
     StdOut.printf("%-23s = %.16f\n", "mean", stats.mean());
     StdOut.printf("%-23s = %.16f\n", "stddev", stats.stddev());
-    StdOut.printf("%-23s = %.16f, %.16f", "95% confidence interval", stats.confidenceLo(), stats.confidenceHi());
+    StdOut.printf("%-23s = %.16f, %.16f", "95% confidence interval",
+        stats.confidenceLo(), stats.confidenceHi());
   }  // test client, described below
 }
