@@ -6,8 +6,8 @@ public class PercolationStats {
     if (n <= 0 || t <= 0) throw new IllegalArgumentException();
     this.t = t;
     stats = new double[t];
+    StdRandom.setSeed(System.currentTimeMillis());
     for (int i = 0; i < t; i++) {
-      StdRandom.setSeed(System.currentTimeMillis());
       Percolation percolation = new Percolation(n);
       while (!percolation.percolates()) {
         int row = StdRandom.uniform(1, n + 1);

@@ -1,23 +1,25 @@
 public class Percolation {
   private int n;
-  private int[] ids;
+  private boolean[] isOpen;
   private WeightedQuickUnionUF uf;
   private WeightedQuickUnionUF fullUf;
 
   public Percolation(int n) {
     this.n = n;
-    ids = new int[n * n + 2];
-    for (int i = 1; i < n * n + 1; i++) {
-      ids[i] = -1;
-    }
-    uf = new WeightedQuickUnionUF(ids.length);
-    fullUf = new WeightedQuickUnionUF(ids.length - 1);
+    isOpen = new boolean[n * n + 2];
+    isOpen[0] = true;
+    isOpen[n * n + 1] = true;
+//    for (int i = 1; i < n * n + 1; i++) {
+//      isOpen[i] = false;
+//    }
+    uf = new WeightedQuickUnionUF(isOpen.length);
+    fullUf = new WeightedQuickUnionUF(isOpen.length - 1);
   }
 
   public void open(int i, int j) {
     if (isOpen(i, j)) return;
     int p = (i - 1) * n + j;
-    ids[p] = 0;
+    isOpen[p] = true;
     if (i == 1) {
       uf.union(0, p);
       fullUf.union(0, p);
@@ -44,7 +46,7 @@ public class Percolation {
   public boolean isOpen(int i, int j) {
     if (i < 1 || i > n || j < 1 || j > n)
       throw new java.lang.IndexOutOfBoundsException("Indices are out of bounds.");
-    return ids[(i - 1) * n + j] == 0;
+    return isOpen[(i - 1) * n + j];
   }
 
   public boolean isFull(int i, int j) {
