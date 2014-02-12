@@ -1,31 +1,23 @@
-/**
- * Created by Kafka Liu on 14-2-9.
- */
 public class PercolationStats {
-
   private double[] stats;
-
   private int t;
 
   public PercolationStats(int n, int t) {
-    if (n <= 0 || t <= 0) {
-      throw new IllegalArgumentException("Both n and t should be greater than 0.");
-    }
+    if (n <= 0 || t <= 0) throw new IllegalArgumentException();
     this.t = t;
     stats = new double[t];
     for (int i = 0; i < t; i++) {
       StdRandom.setSeed(System.currentTimeMillis());
       Percolation percolation = new Percolation(n);
-      int count = 0;
       while (!percolation.percolates()) {
         int row = StdRandom.uniform(1, n + 1);
         int column = StdRandom.uniform(1, n + 1);
         if (!percolation.isOpen(row, column)) {
-          count++;
+          stats[i]++;
           percolation.open(row, column);
         }
       }
-      stats[i] = count * 1.0 / (n * n);
+      stats[i] *=  1.0 / (n * n);
     }
   }
 
