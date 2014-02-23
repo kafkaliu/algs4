@@ -74,6 +74,11 @@ public class Deque<Item> implements Iterable<Item> {
     deque.addLast(6);
     deque.addLast(7);
     deque.removeFirst();
+    deque.removeFirst();
+    deque.removeFirst();
+    deque.removeFirst();
+    deque.removeLast();
+    deque.removeLast();
     deque.removeLast();
     for (Iterator<Integer> it = deque.iterator(); it.hasNext();) {
       StdOut.println(it.next());
