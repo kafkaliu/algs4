@@ -63,7 +63,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     RandomizedQueue<String> randomizedQueue = new RandomizedQueue<String>();
     for (int i = 0; i < 5000; i++) {
       double ran = StdRandom.uniform();
-      if (ran <= 0.1) {
+      if (ran <= 1) {
         randomizedQueue.enqueue("A");
       }
       else {
@@ -74,6 +74,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
       }
     }
+    try {
+      randomizedQueue.dequeue();
+    } catch (NoSuchElementException e) {
+      StdOut.print();
+    }
+
 //    randomizedQueue.enqueue(2);
 //    randomizedQueue.enqueue(3);
 //    randomizedQueue.enqueue(4);
