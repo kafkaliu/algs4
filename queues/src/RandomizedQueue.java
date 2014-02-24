@@ -19,21 +19,27 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
   public void enqueue(Item item) {
     RandomizedQueueNode node = createNode(item);
-    if (tail != null) tail.next = node;
+    if (head == null) head = node;
+    else tail.next = node;
     tail = node;
-    if (size == 0) head = tail;
     size++;
   }
 
   public Item dequeue() {
     if (size == 0) throw new NoSuchElementException();
-    RandomizedQueueNode node = head;
-    head = node.next;
-    size--;
-    if (size == 0) {
-      tail = null;
+    RandomizedQueueNode current = head;
+    RandomizedQueueNode previous = null;
+    for (int i = 0, f = StdRandom.uniform(size); i < f; i++) {
+      previous = current;
+      current = current.next;
     }
-    return node.item;
+    if (previous == null) head = current.next;
+    else previous.next = current.next;
+    if (current == tail) {
+      tail = previous;
+    }
+    size--;
+    return current.item;
   }
 
   public Item sample() {
@@ -56,20 +62,37 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
   }
 
   public static void main(String[] args) {
-    RandomizedQueue<Integer> randomizedQueue = new RandomizedQueue<Integer>();
-    randomizedQueue.enqueue(1);
-    randomizedQueue.enqueue(2);
-    randomizedQueue.enqueue(3);
-    randomizedQueue.enqueue(4);
-    randomizedQueue.enqueue(5);
-    randomizedQueue.enqueue(6);
-    randomizedQueue.enqueue(7);
-    randomizedQueue.enqueue(8);
-    randomizedQueue.enqueue(9);
-    randomizedQueue.enqueue(10);
-    for (Iterator<Integer> it = randomizedQueue.iterator(); it.hasNext();) {
-      StdOut.println(it.next());
+    RandomizedQueue<String> randomizedQueue = new RandomizedQueue<String>();
+    for (int i = 0; i < 5000; i++) {
+      double ran = StdRandom.uniform();
+      if (ran <= 0.1) {
+        randomizedQueue.enqueue("A");
+      }
+      else {
+        try {
+          randomizedQueue.dequeue();
+        } catch (NoSuchElementException e) {
+          StdOut.print();
+        }
+      }
     }
+//    randomizedQueue.enqueue(2);
+//    randomizedQueue.enqueue(3);
+//    randomizedQueue.enqueue(4);
+//    randomizedQueue.enqueue(5);
+//    randomizedQueue.enqueue(6);
+//    randomizedQueue.enqueue(7);
+//    randomizedQueue.enqueue(8);
+//    randomizedQueue.enqueue(9);
+//    randomizedQueue.enqueue(10);
+//    randomizedQueue.enqueue("A");
+//    randomizedQueue.enqueue("B");
+//    randomizedQueue.enqueue("C");
+//    for (Iterator<String> it = randomizedQueue.iterator(); it.hasNext();) {
+//      StdOut.println(it.next());
+//    }
+//    StdOut.println(randomizedQueue.dequeue());
+//    randomizedQueue.sample();
   }
 
   private RandomizedQueueNode createNode(Item item) {
