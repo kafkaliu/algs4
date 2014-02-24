@@ -7,13 +7,13 @@ public class Subset {
     }
     int k = Integer.parseInt(args[0]);
     RandomizedQueue queue = new RandomizedQueue();
-    for (String str: StdIn.readAllStrings()) {
-      queue.enqueue(str);
-    }
-    int i = 0;
-    for (Iterator<String> it = queue.iterator(); i < k && it.hasNext();) {
+    if (k > 0)
+      for (String str: StdIn.readAllStrings()) {
+        if (queue.size() == k) queue.dequeue();
+        queue.enqueue(str);
+      }
+    for (Iterator<String> it = queue.iterator(); it.hasNext();) {
       StdOut.println(it.next());
-      i++;
     }
   }
 }
